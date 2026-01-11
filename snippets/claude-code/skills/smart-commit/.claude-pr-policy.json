@@ -1,0 +1,22 @@
+{
+  "description": "Policy for when to create PRs vs direct commits in Claude Code",
+  "thresholds": {
+    "files_changed": 10,
+    "lines_changed": 100,
+    "core_files": [
+      "src/main.ts",
+      "src/index.ts",
+      "package.json",
+      "tsconfig.json",
+      "CLAUDE.md",
+      ".claude/skills/*/SKILL.md"
+    ]
+  },
+  "pr_required_if": "any",
+  "comments": {
+    "files_changed": "Number of modified/added/deleted files that triggers PR",
+    "lines_changed": "Total additions + deletions that triggers PR",
+    "core_files": "List of critical files that always require PR (supports globs)",
+    "pr_required_if": "Logic: 'any' (OR) or 'all' (AND) - any means PR if ANY threshold exceeded"
+  }
+}
