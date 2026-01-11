@@ -90,11 +90,7 @@ template/
 │       │   ├── status.md
 │       │   ├── wip.md
 │       │   └── sync.md
-│       ├── hooks.md        # Hooks configuration
-│       └── skills/
-│           └── smart-commit/
-│               ├── SKILL.md
-│               └── .claude-pr-policy.json
+│       └── hooks.md        # Hooks configuration
 ```
 
 ## Source Projects
