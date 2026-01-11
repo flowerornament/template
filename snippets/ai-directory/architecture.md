@@ -1,47 +1,47 @@
-# Architecture
+# Architecture Documentation Reference
 
-## Overview
+This is a guide for what to include when documenting architecture, not a template to copy.
 
-{{PROJECT_DESCRIPTION}}
+## When to Create
 
-## Directory Structure
+Create `architecture.md` when:
+- The system has multiple components that interact
+- Data flows through the system in non-obvious ways
+- There are important design decisions worth capturing
+- A new contributor would need context to understand the structure
 
-```
-project/
-├── src/                # Source code
-├── tests/              # Test files
-├── docs/               # Documentation
-└── ...
-```
+Don't create it:
+- At project init (nothing to document yet)
+- For simple scripts or single-file projects
+- Just to have a file
 
-## Components
+## What to Cover
 
-### Component 1
-Purpose and responsibilities.
+### Overview
+What does this system do? One paragraph.
 
-### Component 2
-Purpose and responsibilities.
+### Components
+Major pieces and their responsibilities. How do they relate?
 
-## Data Flow
+### Data Flow
+How does data move through the system? Consider:
+- Entry points (user input, API calls, events)
+- Transformations (what happens to data)
+- Exit points (output, storage, external calls)
 
-```
-Input → Processing → Output
-```
+### Key Decisions
+Important architectural choices and why they were made. This is often the most valuable section - it captures context that would otherwise be lost.
 
-## Key Decisions
+### Dependencies
+External systems, libraries, or services this depends on.
 
-| Decision | Rationale |
-|----------|-----------|
-| Choice A over B | Why |
+### Extension Points
+Where and how to add new functionality.
 
-## Extension Points
+## Keep It Current
 
-Where and how to extend functionality.
-
-## Failure Modes
-
-Known failure scenarios and mitigations.
-
-## Dependencies
-
-External dependencies and their purposes.
+Architecture docs rot quickly. Update when:
+- Adding new components
+- Changing how components interact
+- Making significant design decisions
+- Discovering the doc is wrong

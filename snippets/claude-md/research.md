@@ -43,6 +43,14 @@ Investigation notes are organized in `.ai/research/`:
 - Sources should be properly cited
 - Questions should have definitive answers or documented blockers
 
+## Project Knowledge
+
+Beyond research findings, document broader learnings in `.ai/`:
+- `decisions.md` - Key methodological choices and rationale
+- `learnings.md` - Meta-discoveries about the research process
+
+Create these files when there's real content, not before.
+
 ## Session End
 
 Before ending any session:

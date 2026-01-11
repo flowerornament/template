@@ -61,6 +61,15 @@ When modifying this automation:
 3. Update schedule/triggers/outputs docs if behavior changes
 4. Consider rollback strategy
 
+## Project Knowledge
+
+When you learn something significant about this automation, document it in `.ai/`:
+- `architecture.md` - System structure, dependencies, data flow
+- `decisions.md` - Key choices and rationale
+- `learnings.md` - Discoveries, failure patterns, operational insights
+
+Create these files when there's real content, not before. Update them as the project evolves.
+
 ## Session End
 
 Before ending any session:

@@ -98,18 +98,14 @@ Each type creates a base structure. Task system is added on top.
 #### Build
 ```
 project/
-├── CLAUDE.md              # From snippets/claude-md/minimal.md (or gsd.md/beads.md based on task system)
-└── .ai/
-    └── architecture.md    # Optional, for complex builds
+└── CLAUDE.md              # From snippets/claude-md/minimal.md (or gsd.md/beads.md based on task system)
 ```
 **Git**: main (+ dev branch recommended)
 
 #### Maintain
 ```
 project/
-├── CLAUDE.md
-└── .ai/
-    └── architecture.md
+└── CLAUDE.md
 ```
 **Git**: main
 
@@ -150,9 +146,6 @@ project/
 ```
 project/
 ├── CLAUDE.md
-├── .ai/
-│   ├── structure.md
-│   └── conventions.md
 └── docs/
     └── index.md
 ```
@@ -163,9 +156,6 @@ project/
 project/
 ├── CLAUDE.md
 ├── AGENTS.md              # From snippets/agents-md/full.md
-├── .ai/
-│   ├── architecture.md
-│   └── conventions.md
 └── .claude/
     └── commands/          # From snippets/claude-code/commands/
 ```
@@ -295,7 +285,7 @@ tree -a -I '.git' .
 | Research CLAUDE.md | snippets/claude-md/research.md |
 | Automate CLAUDE.md | snippets/claude-md/automate.md |
 | Full AGENTS.md | snippets/agents-md/full.md |
-| Architecture | snippets/ai-directory/architecture.md |
+| Architecture (reference) | snippets/ai-directory/architecture.md |
 | Conventions | snippets/ai-directory/conventions.md |
 | Research templates | snippets/ai-directory/research/*.md |
 | Automation templates | snippets/ai-directory/automation/*.md |
