@@ -1,131 +1,251 @@
 # Project Initialization Guide
 
-**For coding agents**: Follow this guide to initialize a new project. Ask the user the questions below, then set up the appropriate structure.
+**For any coding agent**: Follow this guide to initialize a new project. Use a purpose-first approach - understand what the user wants to accomplish, then set up the appropriate structure.
 
 ---
 
-## Step 1: Gather Information
+## Step 1: Understand Purpose
 
-Ask the user these questions (adapt phrasing naturally):
+### Ask the Primary Question
 
-### Q1: Project Type
-"What kind of project is this?"
-- **Greenfield**: New feature build with clear milestones
-- **Maintenance**: Ongoing system/tool that will evolve over time
-- **Complex**: Multi-contributor project needing PR workflows
-- **Script**: Quick utility, minimal structure needed
+**"What do you want to accomplish with this project?"**
 
-### Q2: Task Management
-"How do you want to track work?"
-- **GSD**: Phase-based milestones (best for greenfield builds)
-- **bd (beads)**: Issue tracking with dependencies (best for ongoing work)
-- **Both**: GSD for major features, bd for bugs/discovered work
-- **None**: Just git commits, no formal tracking
+Listen for signals and infer the appropriate archetype:
 
-### Q3: Git Workflow
-"How should we handle git?"
-- **Simple**: master/main branch only, direct commits
-- **Beads sync**: main + beads-sync branch (keeps issues off main)
-- **PR workflow**: main + dev + beads-sync, PRs for significant changes
+| User Says | Archetype | Default Setup |
+|-----------|-----------|---------------|
+| "Build X", "Create Y", clear deliverable | **Build** | GSD + dev branch |
+| "Maintain", "manage", "evolve over time" | **Maintain** | beads + beads-sync |
+| "Research", "investigate", "understand" | **Research** | beads + research notes |
+| "Run automatically", "cron", "scheduled" | **Automate** | beads + logs + config |
+| "Learn", "experiment", "try out" | **Learn** | minimal setup |
+| "Document", "wiki", "knowledge base" | **Document** | beads + docs structure |
+| "Team", "contributors", "PR workflow" | **Collaborate** | beads + full docs + PR |
+| Quick task, one-off, simple | **Quick** | CLAUDE.md only |
 
-### Q4: Documentation Level
-"How much documentation structure?"
-- **Minimal**: Just CLAUDE.md
-- **Standard**: CLAUDE.md + .ai/architecture.md
-- **Full**: CLAUDE.md + AGENTS.md + .ai/ + .claude/commands/
+### Confirm Your Understanding
 
-### Q5: Project Context
-"Brief description of what you're building?"
-(Used to customize architecture docs and CLAUDE.md)
+**"Based on that, I'd suggest a [archetype] setup with [key features]. Does that sound right?"**
+
+- If yes → proceed with archetype defaults
+- If no → ask refinement questions (see questions/init-questions.md)
+
+### Get Project Description
+
+**"What's a one-sentence description?"**
+
+Used for CLAUDE.md header and documentation.
 
 ---
 
-## Step 2: Apply Configuration
+## Step 2: Apply Archetype Configuration
 
-Based on answers, create the appropriate structure:
+### Build (Greenfield)
 
-### Greenfield + GSD + Simple Git + Minimal Docs
 ```
 project/
-├── CLAUDE.md           # From snippets/claude-md/gsd.md
+├── CLAUDE.md              # From snippets/claude-md/gsd.md
 └── .planning/
-    ├── PROJECT.md      # User's project description
-    ├── ROADMAP.md      # Empty, to be filled via /gsd:create-roadmap
-    ├── STATE.md        # Initial state
-    └── config.json     # {"mode": "yolo", "depth": "comprehensive"}
+    ├── PROJECT.md         # User's project description
+    ├── ROADMAP.md         # Via /gsd:create-roadmap
+    ├── STATE.md           # Initial state
+    └── config.json        # {"mode": "yolo", "depth": "comprehensive"}
 ```
 
-### Maintenance + Beads + Beads Sync + Standard Docs
+**Git**: main + dev branches
+**Next step**: "Run `/gsd:create-roadmap` to define phases"
+
+---
+
+### Maintain (Ongoing)
+
 ```
 project/
-├── CLAUDE.md           # From snippets/claude-md/beads.md
+├── CLAUDE.md              # From snippets/claude-md/beads.md
 ├── .ai/
-│   └── architecture.md # From snippets/ai-directory/architecture.md
-└── .beads/             # Created via `bd init`
+│   └── architecture.md    # From snippets/ai-directory/architecture.md
+└── .beads/                # Via `bd init`
 ```
 
-### Complex + Beads + PR Workflow + Full Docs
+**Git**: main + beads-sync branches
+**Next step**: "Run `bd ready` to see available work"
+
+---
+
+### Research (Investigation)
+
 ```
 project/
-├── CLAUDE.md           # From snippets/claude-md/beads.md
-├── AGENTS.md           # From snippets/agents-md/full.md
+├── CLAUDE.md              # From snippets/claude-md/research.md
+├── .ai/
+│   └── research/
+│       ├── questions.md   # From snippets/ai-directory/research/questions.md
+│       ├── findings.md    # From snippets/ai-directory/research/findings.md
+│       └── sources.md     # From snippets/ai-directory/research/sources.md
+└── .beads/                # Via `bd init`
+```
+
+**Git**: main + beads-sync branches
+**Next step**: "Add your research questions to .ai/research/questions.md"
+
+---
+
+### Automate (Agent-Managed)
+
+```
+project/
+├── CLAUDE.md              # From snippets/claude-md/automate.md
+├── .ai/
+│   ├── schedule.md        # From snippets/ai-directory/automation/schedule.md
+│   ├── triggers.md        # From snippets/ai-directory/automation/triggers.md
+│   └── outputs.md         # From snippets/ai-directory/automation/outputs.md
+├── config/
+│   └── .gitkeep
+├── logs/
+│   └── .gitkeep
+└── .beads/                # Via `bd init`
+```
+
+**Git**: main + beads-sync branches
+**Next step**: "Define your schedule in .ai/schedule.md"
+
+---
+
+### Learn (Experimentation)
+
+```
+project/
+├── CLAUDE.md              # From snippets/claude-md/minimal.md
+└── scratch/
+    └── .gitkeep
+```
+
+**Git**: main branch only
+**Next step**: "Start experimenting!"
+
+---
+
+### Document (Knowledge Base)
+
+```
+project/
+├── CLAUDE.md              # From snippets/claude-md/beads.md
+├── .ai/
+│   ├── structure.md       # How content is organized
+│   └── conventions.md     # From snippets/ai-directory/conventions.md
+├── docs/
+│   └── index.md
+└── .beads/                # Via `bd init`
+```
+
+**Git**: main + beads-sync branches
+**Next step**: "Start building your documentation in docs/"
+
+---
+
+### Collaborate (Multi-Contributor)
+
+```
+project/
+├── CLAUDE.md              # From snippets/claude-md/beads.md
+├── AGENTS.md              # From snippets/agents-md/full.md
 ├── .ai/
 │   ├── architecture.md
 │   └── conventions.md
-├── .beads/             # Created via `bd init`
+├── .beads/                # Via `bd init`
 └── .claude/
-    └── commands/
-        ├── commit.md   # From snippets/git-commands/commit.md
+    └── commands/          # From snippets/claude-code/commands/
+        ├── commit.md
         ├── pr.md
-        └── wip.md
+        ├── release.md
+        ├── status.md
+        ├── wip.md
+        └── sync.md
 ```
+
+**Git**: main + dev + beads-sync branches
+**Next step**: "Run `bd ready` to see available work"
+
+---
+
+### Quick (One-Off)
+
+```
+project/
+└── CLAUDE.md              # From snippets/claude-md/minimal.md
+```
+
+**Git**: main branch only
+**Next step**: "Let's get to work!"
 
 ---
 
 ## Step 3: Initialize Systems
 
 ### If using beads:
+
 ```bash
 bd init
 bd config set sync.branch beads-sync
-# Create beads-sync branch if using that workflow
+
+# Create beads-sync branch (orphan)
 git checkout --orphan beads-sync
+git rm -rf .
 git add .beads/
 git commit -m "Initialize beads tracking"
 git checkout main  # or master
 ```
 
 ### If using GSD:
+
 ```bash
 mkdir -p .planning/phases
-# Create initial files (PROJECT.md, ROADMAP.md, STATE.md, config.json)
+# Create PROJECT.md, ROADMAP.md, STATE.md, config.json
 ```
 
-### Git setup:
+### If using dev branch workflow:
+
 ```bash
-git init  # if not already
+git checkout -b dev
+git push -u origin dev
+```
+
+### Git initial commit:
+
+```bash
 git add .
-git commit -m "Initialize project structure"
+git commit -m "Initialize project structure
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 ---
 
-## Step 4: Customize Content
+## Step 4: Claude Code Setup (Optional)
 
-Replace placeholders in created files:
+If user wants Claude Code slash commands:
+
+1. Copy commands from `snippets/claude-code/commands/` to `.claude/commands/`
+2. Set up hooks per `snippets/claude-code/hooks.md`
+3. Verify with `/commit` or `/status`
+
+---
+
+## Step 5: Customize & Verify
+
+### Replace placeholders:
+
 - `{{PROJECT_NAME}}` - Project name
 - `{{PROJECT_DESCRIPTION}}` - Brief description
 - `{{DATE}}` - Current date
 
----
+### Show user what was created:
 
-## Step 5: Verify & Handoff
+```bash
+tree -a -I '.git' .
+```
 
-Confirm with user:
-1. Show them what was created: `ls -la` or tree view
-2. Explain next steps based on their workflow
-3. If beads: "Run `bd ready` to see available work"
-4. If GSD: "Run `/gsd:create-roadmap` to define phases"
+### Explain next steps based on archetype.
 
 ---
 
@@ -136,17 +256,22 @@ Confirm with user:
 | Minimal CLAUDE.md | snippets/claude-md/minimal.md |
 | Beads CLAUDE.md | snippets/claude-md/beads.md |
 | GSD CLAUDE.md | snippets/claude-md/gsd.md |
+| Research CLAUDE.md | snippets/claude-md/research.md |
+| Automate CLAUDE.md | snippets/claude-md/automate.md |
 | Full AGENTS.md | snippets/agents-md/full.md |
-| Architecture template | snippets/ai-directory/architecture.md |
-| Conventions template | snippets/ai-directory/conventions.md |
-| /commit command | snippets/git-commands/commit.md |
-| /pr command | snippets/git-commands/pr.md |
-| /wip command | snippets/git-commands/wip.md |
+| Architecture | snippets/ai-directory/architecture.md |
+| Conventions | snippets/ai-directory/conventions.md |
+| Research templates | snippets/ai-directory/research/*.md |
+| Automation templates | snippets/ai-directory/automation/*.md |
+| Claude Code commands | snippets/claude-code/commands/*.md |
+| Claude Code hooks | snippets/claude-code/hooks.md |
+| Agent-agnostic git | snippets/git-commands/*.md |
 
 ---
 
 ## Notes
 
-- This file (INIT.md) can be deleted after initialization, or kept for reference
+- This file can be deleted after initialization, or kept for reference
 - The template at ~/code/template should not be modified during project init
 - If you notice useful patterns missing, create an issue: `cd ~/code/template && bd create "Add: ..."`
+- For detailed question flow, see: questions/init-questions.md
