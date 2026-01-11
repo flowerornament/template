@@ -82,10 +82,6 @@ template/
 │   │       ├── schedule.md
 │   │       ├── triggers.md
 │   │       └── outputs.md
-│   ├── git-commands/       # Agent-agnostic git workflows
-│   │   ├── commit.md
-│   │   ├── pr.md
-│   │   └── wip.md
 │   └── claude-code/        # Claude Code specific setup
 │       ├── commands/       # Slash commands
 │       │   ├── commit.md
@@ -94,13 +90,11 @@ template/
 │       │   ├── status.md
 │       │   ├── wip.md
 │       │   └── sync.md
-│       └── hooks.md        # Hooks configuration
-├── gsd-planning/           # GSD .planning/ templates
-├── patterns/               # Content pattern guidance
-└── examples/               # Working archetype examples
-    ├── build/
-    ├── research/
-    └── automate/
+│       ├── hooks.md        # Hooks configuration
+│       └── skills/
+│           └── smart-commit/
+│               ├── SKILL.md
+│               └── .claude-pr-policy.json
 ```
 
 ## Source Projects

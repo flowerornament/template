@@ -265,7 +265,6 @@ tree -a -I '.git' .
 | Automation templates | snippets/ai-directory/automation/*.md |
 | Claude Code commands | snippets/claude-code/commands/*.md |
 | Claude Code hooks | snippets/claude-code/hooks.md |
-| Agent-agnostic git | snippets/git-commands/*.md |
 
 ---
 

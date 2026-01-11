@@ -1,6 +1,0 @@
-{
-  "project": "{{PROJECT_NAME}}",
-  "mode": "interactive",
-  "depth": "comprehensive",
-  "created": "{{DATE}}"
-}
