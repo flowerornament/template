@@ -1,16 +1,14 @@
 # Project Initialization Questions
 
-A purpose-first approach to project setup. Start with understanding what the user wants to accomplish, then infer the appropriate configuration.
+A purpose-first approach to project setup. Start with understanding what the user wants to accomplish, then let them choose how to manage work.
 
 ---
 
-## Primary Question
-
-### Q1: Purpose (Open-Ended)
+## Q1: Purpose (Required)
 
 **Ask**: "What do you want to accomplish with this project?"
 
-Listen for signals that indicate:
+Listen for signals that indicate project type:
 - **Code output expected?** (build, create, implement, develop)
 - **Investigation only?** (research, explore, understand, learn about)
 - **Automation?** (run automatically, cron, scheduled, agent-managed)
@@ -18,66 +16,98 @@ Listen for signals that indicate:
 - **Ongoing?** (maintain, evolve, manage, track)
 - **Collaboration?** (team, contributors, review)
 
-### Archetype Inference
+### Project Type Inference
 
-Based on the response, infer the primary archetype:
-
-| Signals | Archetype | Default Setup |
-|---------|-----------|---------------|
-| "Build X", "Create Y", clear deliverable | **Build** | GSD + dev branch |
-| "Maintain", "manage", "evolve over time" | **Maintain** | beads + beads-sync |
-| "Research", "investigate", "understand" | **Research** | beads + research notes |
-| "Run automatically", "cron", "scheduled" | **Automate** | beads + logs + config |
-| "Learn", "experiment", "try out" | **Learn** | minimal |
-| "Document", "wiki", "knowledge base" | **Document** | beads + docs structure |
-| "Team", "contributors", "PR workflow" | **Collaborate** | beads + full docs + PR |
-| Quick task, one-off, simple | **Quick** | CLAUDE.md only |
+| Signals | Project Type | What It Means |
+|---------|--------------|---------------|
+| "Build X", "Create Y", clear deliverable | **Build** | New thing with defined end state |
+| "Maintain", "manage", "evolve over time" | **Maintain** | Existing system needing ongoing care |
+| "Research", "investigate", "understand" | **Research** | Investigation, learning, no code output |
+| "Run automatically", "cron", "scheduled" | **Automate** | Agent-managed, runs on schedule |
+| "Learn", "experiment", "try out" | **Learn** | Skill building, experimentation |
+| "Document", "wiki", "knowledge base" | **Document** | Knowledge capture and organization |
+| "Team", "contributors", "PR workflow" | **Collaborate** | Multi-person, needs review process |
+| Quick task, one-off, simple | **Quick** | Minimal overhead, get it done |
 
 ---
 
-## Confirmation Question
+## Q2: Project Description (Required)
 
-### Q2: Confirm Inference
+**Ask**: "What's a one-sentence description of this project?"
 
-**Ask**: "Based on that, I'd suggest a [archetype] setup with [key features]. Does that sound right?"
-
-Example responses:
-- "This sounds like a **Build** project - I'll set up GSD for phase-based planning and a dev branch workflow. Sound good?"
-- "This sounds like a **Research** project - I'll create a research notes structure and beads for tracking questions. Sound right?"
-- "This sounds like an **Automate** project - I'll set up logging, config management, and beads for tracking issues. Correct?"
-
-If user confirms → proceed with defaults
-If user says no → ask Q3-Q5 as needed
+Used to:
+- Populate CLAUDE.md header
+- Seed architecture docs if created
+- Help future agents understand context
 
 ---
 
-## Refinement Questions (Conditional)
+## Q3: Task Management (Required)
 
-Only ask these if Q1 answer was ambiguous or user rejected Q2 suggestion.
+**Always ask**: "How do you want to manage work on this project?"
 
-### Q3: Task Tracking
+| Option | Description |
+|--------|-------------|
+| **GSD** | Phase-based roadmap. Define milestones upfront, work through them sequentially. |
+| **beads** | Issue tracking. Create tasks as you discover them, track dependencies and blockers. |
+| **Minimal** | Just git commits. No formal tracking system. |
+| **Help me decide** | Let's discuss your project to find the best fit. |
 
-**Ask**: "How do you want to track work?"
+### If "Help me decide"
 
-| Answer | When to Use | Creates |
-|--------|-------------|---------|
-| GSD | Phases and milestones, clear roadmap | .planning/ directory |
-| bd (beads) | Discovered work, dependencies, ongoing | .beads/ directory |
-| Both | Major features (GSD) + bugs/issues (bd) | Both directories |
-| None | Very simple project, just git | Nothing |
+Ask these questions to research the best fit:
 
-### Q4: Git Workflow
+**Q3a**: "Do you have a clear picture of the end result, or will the scope emerge as you work?"
+- Clear end state → leans **GSD**
+- Scope will emerge → leans **beads**
+
+**Q3b**: "Is this a one-time build, or something you'll maintain over time?"
+- One-time build → leans **GSD** or **Minimal**
+- Ongoing maintenance → leans **beads**
+
+**Q3c**: "Do you expect to discover bugs, issues, or follow-up work along the way?"
+- Yes, lots of discovered work → **beads**
+- No, straightforward path → **GSD** or **Minimal**
+
+**Decision matrix**:
+| Clear End | One-Time | Discovered Work | Recommendation |
+|-----------|----------|-----------------|----------------|
+| Yes | Yes | No | GSD or Minimal |
+| Yes | Yes | Yes | GSD + beads (both) |
+| Yes | No | Yes | beads |
+| No | No | Yes | beads |
+| No | Yes | No | Minimal |
+
+After determining recommendation, confirm with user before proceeding.
+
+---
+
+## Q4: Confirm Setup (Required)
+
+**Ask**: "I'll set up a [project type] project with [task system]. Sound right?"
+
+- If yes → proceed to configuration
+- If no → ask what they'd prefer
+
+---
+
+## Optional Refinement Questions
+
+Only ask these if needed for clarity.
+
+### Git Workflow
 
 **Ask**: "How should we handle git branches?"
 
 | Answer | Branches | When to Use |
 |--------|----------|-------------|
-| Simple | master/main only | Solo dev, direct commits |
+| Simple | main only | Solo dev, direct commits |
 | Dev branch | main + dev | Want stable main, work on dev |
-| Beads sync | main + beads-sync | Using beads, want issues off main |
-| PR workflow | main + dev + beads-sync | Team, need code review |
+| PR workflow | main + dev | Team, need code review |
 
-### Q5: Documentation Level
+Note: beads-sync branch is added automatically if using beads.
+
+### Documentation Level
 
 **Ask**: "How much documentation structure do you need?"
 
@@ -87,7 +117,7 @@ Only ask these if Q1 answer was ambiguous or user rejected Q2 suggestion.
 | Standard | + .ai/architecture.md | Most projects |
 | Full | + AGENTS.md + .claude/commands/ | Complex, multi-contributor |
 
-### Q6: Claude Code Setup (if using Claude Code)
+### Claude Code Setup
 
 **Ask**: "Do you want Claude Code slash commands set up?"
 
@@ -98,80 +128,9 @@ Only ask these if Q1 answer was ambiguous or user rejected Q2 suggestion.
 
 ---
 
-## Archetype Defaults
-
-Quick reference for default configurations:
-
-### Build (Greenfield)
-```
-Task: GSD
-Git: main + dev
-Docs: CLAUDE.md + .planning/
-CC: commands recommended
-```
-
-### Maintain (Ongoing)
-```
-Task: beads
-Git: main + beads-sync
-Docs: CLAUDE.md + .ai/
-CC: commands recommended
-```
-
-### Research
-```
-Task: beads
-Git: main + beads-sync
-Docs: CLAUDE.md + .ai/research/
-CC: optional
-```
-
-### Automate
-```
-Task: beads
-Git: main + beads-sync
-Docs: CLAUDE.md + .ai/automation/
-CC: commands recommended
-Structure: + logs/ + config/
-```
-
-### Learn
-```
-Task: none
-Git: main only
-Docs: CLAUDE.md only
-CC: optional
-```
-
-### Document
-```
-Task: beads
-Git: main + beads-sync
-Docs: CLAUDE.md + .ai/ + docs/
-CC: optional
-```
-
-### Collaborate
-```
-Task: beads
-Git: main + dev + beads-sync
-Docs: CLAUDE.md + AGENTS.md + .ai/ + .claude/commands/
-CC: required
-```
-
-### Quick
-```
-Task: none
-Git: main only
-Docs: CLAUDE.md only
-CC: no
-```
-
----
-
 ## Fallback: Direct Selection
 
-If purpose is unclear after Q1, offer direct archetype selection:
+If purpose is unclear after Q1, offer direct project type selection:
 
 **Ask**: "Which of these best describes your project?"
 
@@ -186,21 +145,9 @@ If purpose is unclear after Q1, offer direct archetype selection:
 
 ---
 
-## Context Question (Always Ask)
-
-### Project Description
-
-**Ask**: "What's a one-sentence description of this project?"
-
-Used to:
-- Populate PROJECT.md / CLAUDE.md header
-- Seed architecture docs if created
-- Help future agents understand context
-
----
-
 ## Anti-Patterns
 
+- Don't assume task system from project type - always ask
 - Don't over-configure simple projects (Quick doesn't need .ai/)
 - Don't under-configure complex projects (Collaborate needs full docs)
 - Match git workflow to task system (beads usually wants beads-sync)

@@ -10,36 +10,18 @@
 
 **"What do you want to accomplish with this project?"**
 
-Listen for signals and infer the appropriate archetype:
+Listen for signals and infer the project type:
 
-| User Says | Archetype | Default Setup |
-|-----------|-----------|---------------|
-| "Build X", "Create Y", clear deliverable | **Build** | GSD + dev branch |
-| "Maintain", "manage", "evolve over time" | **Maintain** | beads + beads-sync |
-| "Research", "investigate", "understand" | **Research** | beads + research notes |
-| "Run automatically", "cron", "scheduled" | **Automate** | beads + logs + config |
-| "Learn", "experiment", "try out" | **Learn** | minimal setup |
-| "Document", "wiki", "knowledge base" | **Document** | beads + docs structure |
-| "Team", "contributors", "PR workflow" | **Collaborate** | beads + full docs + PR |
-| Quick task, one-off, simple | **Quick** | CLAUDE.md only |
-
-### Task Systems: GSD vs Beads
-
-Two systems appear above. Here's when to use each:
-
-| System | Use When | How It Works |
-|--------|----------|--------------|
-| **GSD** | Building something new with clear milestones | Phase-based roadmap in `.planning/`. Work through phases sequentially. Best for greenfield projects where you know the destination. |
-| **beads** | Ongoing work, discovered issues, dependencies | Issue tracking in `.beads/`. Create issues as you find them, track blockers. Best for maintenance, research, or when scope emerges over time. |
-
-**Rule of thumb**: If you can write a roadmap upfront → GSD. If work will be discovered → beads.
-
-### Confirm Your Understanding
-
-**"Based on that, I'd suggest a [archetype] setup with [key features]. Does that sound right?"**
-
-- If yes → proceed with archetype defaults
-- If no → ask refinement questions (see questions/init-questions.md)
+| User Says | Project Type | What It Means |
+|-----------|--------------|---------------|
+| "Build X", "Create Y", clear deliverable | **Build** | New thing with defined end state |
+| "Maintain", "manage", "evolve over time" | **Maintain** | Existing system that needs ongoing care |
+| "Research", "investigate", "understand" | **Research** | Investigation, learning, no code output |
+| "Run automatically", "cron", "scheduled" | **Automate** | Agent-managed, runs on schedule |
+| "Learn", "experiment", "try out" | **Learn** | Skill building, experimentation |
+| "Document", "wiki", "knowledge base" | **Document** | Knowledge capture and organization |
+| "Team", "contributors", "PR workflow" | **Collaborate** | Multi-person, needs review process |
+| Quick task, one-off, simple | **Quick** | Minimal overhead, get it done |
 
 ### Get Project Description
 
@@ -49,149 +31,192 @@ Used for CLAUDE.md header and documentation.
 
 ---
 
-## Step 2: Apply Archetype Configuration
+## Step 2: Choose Task Management
 
-### Build (Greenfield)
+**Always ask**: "How do you want to manage work on this project?"
 
-```
-project/
-├── CLAUDE.md              # From snippets/claude-md/gsd.md
-└── .planning/
-    ├── PROJECT.md         # User's project description
-    ├── ROADMAP.md         # Via /gsd:create-roadmap
-    ├── STATE.md           # Initial state
-    └── config.json        # {"mode": "yolo", "depth": "comprehensive"}
-```
+| Option | Description |
+|--------|-------------|
+| **GSD** | Phase-based roadmap. Define milestones upfront, work through them sequentially. |
+| **beads** | Issue tracking. Create tasks as you discover them, track dependencies and blockers. |
+| **Minimal** | Just git commits. No formal tracking system. |
+| **Help me decide** | Let's discuss your project to find the best fit. |
 
-**Git**: main + dev branches
-**Next step**: "Run `/gsd:create-roadmap` to define phases"
+### If "Help me decide"
+
+Ask these questions to recommend a system:
+
+**Q1**: "Do you have a clear picture of the end result, or will the scope emerge as you work?"
+- Clear end state → leans **GSD**
+- Scope will emerge → leans **beads**
+
+**Q2**: "Is this a one-time build, or something you'll maintain over time?"
+- One-time build → leans **GSD** or **Minimal**
+- Ongoing maintenance → leans **beads**
+
+**Q3**: "Do you expect to discover bugs, issues, or follow-up work along the way?"
+- Yes, lots of discovered work → **beads**
+- No, straightforward path → **GSD** or **Minimal**
+
+**Decision matrix**:
+| Clear End | One-Time | Discovered Work | Recommendation |
+|-----------|----------|-----------------|----------------|
+| Yes | Yes | No | GSD or Minimal |
+| Yes | Yes | Yes | GSD + beads (both) |
+| Yes | No | Yes | beads |
+| No | No | Yes | beads |
+| No | Yes | No | Minimal |
+
+### Task System Reference
+
+| System | Best For | Creates |
+|--------|----------|---------|
+| **GSD** | Greenfield with clear milestones | `.planning/` with PROJECT.md, ROADMAP.md, STATE.md |
+| **beads** | Ongoing work, discovered issues | `.beads/` directory, beads-sync branch |
+| **Both** | Major features (GSD) + issues (beads) | Both directories |
+| **Minimal** | Simple projects, scripts | Nothing extra |
 
 ---
 
-### Maintain (Ongoing)
+## Step 3: Confirm Setup
 
-```
-project/
-├── CLAUDE.md              # From snippets/claude-md/beads.md
-├── .ai/
-│   └── architecture.md    # From snippets/ai-directory/architecture.md
-└── .beads/                # Via `bd init`
-```
+**"I'll set up a [project type] project with [task system]. Sound right?"**
 
-**Git**: main + beads-sync branches
-**Next step**: "Run `bd ready` to see available work"
+- If yes → proceed
+- If no → ask what they'd prefer
 
 ---
 
-### Research (Investigation)
+## Step 4: Apply Configuration
 
+Configuration = Project Type + Task System. Combine as needed.
+
+### Project Type Structures
+
+Each type creates a base structure. Task system is added on top.
+
+#### Build
+```
+project/
+├── CLAUDE.md              # From snippets/claude-md/minimal.md (or gsd.md/beads.md based on task system)
+└── .ai/
+    └── architecture.md    # Optional, for complex builds
+```
+**Git**: main (+ dev branch recommended)
+
+#### Maintain
+```
+project/
+├── CLAUDE.md
+└── .ai/
+    └── architecture.md
+```
+**Git**: main
+
+#### Research
 ```
 project/
 ├── CLAUDE.md              # From snippets/claude-md/research.md
-├── .ai/
-│   └── research/
-│       ├── questions.md   # From snippets/ai-directory/research/questions.md
-│       ├── findings.md    # From snippets/ai-directory/research/findings.md
-│       └── sources.md     # From snippets/ai-directory/research/sources.md
-└── .beads/                # Via `bd init`
+└── .ai/
+    └── research/
+        ├── questions.md
+        ├── findings.md
+        └── sources.md
 ```
+**Git**: main
 
-**Git**: main + beads-sync branches
-**Next step**: "Add your research questions to .ai/research/questions.md"
-
----
-
-### Automate (Agent-Managed)
-
+#### Automate
 ```
 project/
 ├── CLAUDE.md              # From snippets/claude-md/automate.md
 ├── .ai/
-│   ├── schedule.md        # From snippets/ai-directory/automation/schedule.md
-│   ├── triggers.md        # From snippets/ai-directory/automation/triggers.md
-│   └── outputs.md         # From snippets/ai-directory/automation/outputs.md
+│   ├── schedule.md
+│   ├── triggers.md
+│   └── outputs.md
 ├── config/
-│   └── .gitkeep
-├── logs/
-│   └── .gitkeep
-└── .beads/                # Via `bd init`
+└── logs/
 ```
+**Git**: main
 
-**Git**: main + beads-sync branches
-**Next step**: "Define your schedule in .ai/schedule.md"
-
----
-
-### Learn (Experimentation)
-
+#### Learn
 ```
 project/
 ├── CLAUDE.md              # From snippets/claude-md/minimal.md
 └── scratch/
-    └── .gitkeep
 ```
+**Git**: main
 
-**Git**: main branch only
-**Next step**: "Start experimenting!"
-
----
-
-### Document (Knowledge Base)
-
+#### Document
 ```
 project/
-├── CLAUDE.md              # From snippets/claude-md/beads.md
+├── CLAUDE.md
 ├── .ai/
-│   ├── structure.md       # How content is organized
-│   └── conventions.md     # From snippets/ai-directory/conventions.md
-├── docs/
-│   └── index.md
-└── .beads/                # Via `bd init`
+│   ├── structure.md
+│   └── conventions.md
+└── docs/
+    └── index.md
 ```
+**Git**: main
 
-**Git**: main + beads-sync branches
-**Next step**: "Start building your documentation in docs/"
-
----
-
-### Collaborate (Multi-Contributor)
-
+#### Collaborate
 ```
 project/
-├── CLAUDE.md              # From snippets/claude-md/beads.md
+├── CLAUDE.md
 ├── AGENTS.md              # From snippets/agents-md/full.md
 ├── .ai/
 │   ├── architecture.md
 │   └── conventions.md
-├── .beads/                # Via `bd init`
 └── .claude/
     └── commands/          # From snippets/claude-code/commands/
-        ├── commit.md
-        ├── pr.md
-        ├── release.md
-        ├── status.md
-        ├── wip.md
-        └── sync.md
 ```
+**Git**: main + dev (PR workflow)
 
-**Git**: main + dev + beads-sync branches
-**Next step**: "Run `bd ready` to see available work"
-
----
-
-### Quick (One-Off)
-
+#### Quick
 ```
 project/
 └── CLAUDE.md              # From snippets/claude-md/minimal.md
 ```
-
-**Git**: main branch only
-**Next step**: "Let's get to work!"
+**Git**: main
 
 ---
 
-## Step 3: Initialize Systems
+### Task System Additions
+
+Layer these on top of the project type structure:
+
+#### If GSD
+```
++ .planning/
+    ├── PROJECT.md         # Project context
+    ├── ROADMAP.md         # Phases and milestones
+    ├── STATE.md           # Current position
+    └── config.json        # {"mode": "yolo", "depth": "comprehensive"}
+```
+**CLAUDE.md**: Use snippets/claude-md/gsd.md
+**Next step**: Run `/gsd:create-roadmap`
+
+#### If beads
+```
++ .beads/                  # Via `bd init`
+```
+**CLAUDE.md**: Use snippets/claude-md/beads.md
+**Git**: Add beads-sync branch
+**Next step**: Run `bd ready`
+
+#### If Both (GSD + beads)
+```
++ .planning/               # For major milestones
++ .beads/                  # For discovered issues
+```
+**CLAUDE.md**: Mention both systems
+**Git**: Add beads-sync branch
+
+#### If Minimal
+No additional structure. Just git commits.
+
+---
+
+## Step 5: Initialize Systems
 
 ### If using beads:
 
@@ -232,7 +257,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 ---
 
-## Step 4: Claude Code Setup (Optional)
+## Step 6: Claude Code Setup (Optional)
 
 If user wants Claude Code slash commands:
 
@@ -242,7 +267,7 @@ If user wants Claude Code slash commands:
 
 ---
 
-## Step 5: Customize & Verify
+## Step 7: Customize & Verify
 
 ### Replace placeholders:
 
