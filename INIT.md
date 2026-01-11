@@ -78,16 +78,44 @@ Ask these questions to recommend a system:
 
 ---
 
-## Step 3: Confirm Setup
+## Step 3: Choose Git Workflow
 
-**"I'll set up a [project type] project with [task system]. Sound right?"**
+**Always ask**: "How do you want to manage branches?"
+
+| Option | Description |
+|--------|-------------|
+| **Direct to main** | Commit directly to main. Simplest approach for solo work. |
+| **Dev branch** | Work on dev, merge to main for releases. Keeps main clean. |
+| **Feature branches** | Branch per feature/fix, merge via PR. Good for review or collaboration. |
+| **Worktrees** | Separate directories per branch. For parallel work across multiple contexts. |
+| **Help me decide** | Let's discuss your workflow to find the best fit. |
+
+### If "Help me decide"
+
+**Q1**: "Will you work on multiple things in parallel, or one thing at a time?"
+- Multiple parallel → leans **Worktrees** or **Feature branches**
+- One at a time → leans **Direct to main** or **Dev branch**
+
+**Q2**: "Do you want main to always be clean/deployable?"
+- Yes → **Dev branch** or **Feature branches**
+- Doesn't matter → **Direct to main**
+
+**Q3**: "Do you need code review or collaborate with others?"
+- Yes → **Feature branches**
+- No → **Direct to main**, **Dev branch**, or **Worktrees**
+
+---
+
+## Step 4: Confirm Setup
+
+**"I'll set up a [project type] project with [task system] and [git workflow]. Sound right?"**
 
 - If yes → proceed
 - If no → ask what they'd prefer
 
 ---
 
-## Step 4: Apply Configuration
+## Step 5: Apply Configuration
 
 Configuration = Project Type + Task System. Combine as needed.
 
@@ -100,14 +128,12 @@ Each type creates a base structure. Task system is added on top.
 project/
 └── CLAUDE.md              # From snippets/claude-md/minimal.md (or gsd.md/beads.md based on task system)
 ```
-**Git**: main (+ dev branch recommended)
 
 #### Maintain
 ```
 project/
 └── CLAUDE.md
 ```
-**Git**: main
 
 #### Research
 ```
@@ -119,7 +145,6 @@ project/
         ├── findings.md
         └── sources.md
 ```
-**Git**: main
 
 #### Automate
 ```
@@ -132,7 +157,6 @@ project/
 ├── config/
 └── logs/
 ```
-**Git**: main
 
 #### Learn
 ```
@@ -140,7 +164,6 @@ project/
 ├── CLAUDE.md              # From snippets/claude-md/minimal.md
 └── scratch/
 ```
-**Git**: main
 
 #### Document
 ```
@@ -149,7 +172,6 @@ project/
 └── docs/
     └── index.md
 ```
-**Git**: main
 
 #### Collaborate
 ```
@@ -159,14 +181,12 @@ project/
 └── .claude/
     └── commands/          # From snippets/claude-code/commands/
 ```
-**Git**: main + dev (PR workflow)
 
 #### Quick
 ```
 project/
 └── CLAUDE.md              # From snippets/claude-md/minimal.md
 ```
-**Git**: main
 
 ---
 
@@ -190,7 +210,6 @@ Layer these on top of the project type structure:
 + .beads/                  # Via `bd init`
 ```
 **CLAUDE.md**: Use snippets/claude-md/beads.md
-**Git**: Add beads-sync branch
 **Next step**: Run `bd ready`
 
 #### If Both (GSD + beads)
@@ -199,14 +218,13 @@ Layer these on top of the project type structure:
 + .beads/                  # For discovered issues
 ```
 **CLAUDE.md**: Mention both systems
-**Git**: Add beads-sync branch
 
 #### If Minimal
 No additional structure. Just git commits.
 
 ---
 
-## Step 5: Initialize Systems
+## Step 6: Initialize Systems
 
 ### If using beads:
 
@@ -229,11 +247,27 @@ mkdir -p .planning/phases
 # Create PROJECT.md, ROADMAP.md, STATE.md, config.json
 ```
 
-### If using dev branch workflow:
+### Git Workflow Setup
 
+#### If Direct to main:
+No additional setup needed.
+
+#### If Dev branch:
 ```bash
 git checkout -b dev
 git push -u origin dev
+```
+
+#### If Feature branches:
+No initial setup. Create branches as needed: `git checkout -b feat/feature-name`
+
+#### If Worktrees:
+```bash
+# After initial commit on main, set up worktree directory
+mkdir -p ../project-trees
+git worktree add ../project-trees/dev -b dev
+# Add more worktrees as needed:
+# git worktree add ../project-trees/feature-x -b feat/feature-x
 ```
 
 ### Git initial commit:
@@ -247,9 +281,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 ---
 
-## Step 6: Claude Code Setup (Optional)
+## Step 7: Claude Code Setup (Optional)
 
-If user wants Claude Code slash commands (now unified with skills as of v2.1.3):
+If user wants Claude Code slash commands:
 
 1. Copy commands from `snippets/claude-code/commands/` to `.claude/commands/`
 2. Set up hooks per `snippets/claude-code/hooks.md`
@@ -257,7 +291,7 @@ If user wants Claude Code slash commands (now unified with skills as of v2.1.3):
 
 ---
 
-## Step 7: Customize & Verify
+## Step 8: Customize & Verify
 
 ### Replace placeholders:
 
