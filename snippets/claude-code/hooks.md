@@ -1,5 +1,7 @@
 # Claude Code Hooks Configuration
 
+> **Note**: Claude Code features evolve. This doc was last verified with Claude Code v2.1.3 (Jan 2025). For current details, see the [official docs](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code).
+
 Hooks allow Claude Code to run commands automatically at specific points in the workflow.
 
 ## Recommended Hooks

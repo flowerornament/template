@@ -249,7 +249,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 ## Step 6: Claude Code Setup (Optional)
 
-If user wants Claude Code slash commands:
+If user wants Claude Code slash commands (now unified with skills as of v2.1.3):
 
 1. Copy commands from `snippets/claude-code/commands/` to `.claude/commands/`
 2. Set up hooks per `snippets/claude-code/hooks.md`

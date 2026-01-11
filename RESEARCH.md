@@ -67,15 +67,18 @@
 
 ### 5. .claude Directory
 
+> **Note**: As of Claude Code v2.1.3, "slash commands" and "skills" were unified into a single system. Slash commands (single files in `.claude/commands/`) and skills (directories in `.claude/skills/`) now share the same underlying mechanism, though the UX distinction remains. See [official docs](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code) for current details.
+
 **Common Structure**:
 ```
 .claude/
 ├── settings.json           # Plugin settings (beads enabled, etc.)
 ├── settings.local.json     # Permission allowlists
-└── commands/               # Project-specific slash commands
-    ├── commit.md
-    ├── pr.md
-    └── ...
+├── commands/               # Slash commands (single-file, user-invoked)
+│   ├── commit.md
+│   ├── pr.md
+│   └── ...
+└── skills/                 # Skills (directories, auto-discovered by Claude)
 ```
 
 **zed-supercollider commands**: /commit, /pr, /release, /smart-commit, /status, /sync, /wip
@@ -83,6 +86,7 @@
 **Permission Patterns** (settings.local.json):
 - bd commands: `bd ready`, `bd list`, `bd show`, `bd update`, `bd close`, `bd sync`
 - gsd commands: various /gsd:* workflows
+- Skill rules (previously `SlashCommand`, now `Skill`)
 - git operations specific to project
 - WebFetch domains for documentation
 
