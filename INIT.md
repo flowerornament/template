@@ -23,6 +23,17 @@ Listen for signals and infer the appropriate archetype:
 | "Team", "contributors", "PR workflow" | **Collaborate** | beads + full docs + PR |
 | Quick task, one-off, simple | **Quick** | CLAUDE.md only |
 
+### Task Systems: GSD vs Beads
+
+Two systems appear above. Here's when to use each:
+
+| System | Use When | How It Works |
+|--------|----------|--------------|
+| **GSD** | Building something new with clear milestones | Phase-based roadmap in `.planning/`. Work through phases sequentially. Best for greenfield projects where you know the destination. |
+| **beads** | Ongoing work, discovered issues, dependencies | Issue tracking in `.beads/`. Create issues as you find them, track blockers. Best for maintenance, research, or when scope emerges over time. |
+
+**Rule of thumb**: If you can write a roadmap upfront → GSD. If work will be discovered → beads.
+
 ### Confirm Your Understanding
 
 **"Based on that, I'd suggest a [archetype] setup with [key features]. Does that sound right?"**
