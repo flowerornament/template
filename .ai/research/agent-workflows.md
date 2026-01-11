@@ -1,323 +1,255 @@
-# Agent-Driven Development Workflows Research
+# Agent Workflow Patterns
 
-Research into alternative and complementary agent development models for the project starter template.
-
----
-
-## Executive Summary
-
-The landscape of agent-driven development has evolved rapidly. Key patterns emerging:
-
-1. **Parallel agent execution** is becoming standard (5-30+ simultaneous agents)
-2. **Persistent state management** distinguishes advanced workflows from basic prompting
-3. **Three distinct scales** of operation: inner loop (seconds), middle loop (hours), outer loop (weeks)
-4. **Domain isolation** with explicit handoffs outperforms monolithic agent contexts
-
-**Recommendation**: The template should support multiple workflow patterns, allowing users to choose based on project characteristics and personal preference.
+Research into workflow patterns for agent-driven development. Focus on **patterns**, not tools—the tools will change, but the approaches persist.
 
 ---
 
-## 1. Boris Cherny's Multi-Agent Workflow (Claude Code Creator)
+## The 5 Workflow Patterns
 
-### Overview
-Run multiple Claude instances in parallel, treating AI as "capacity you schedule" rather than a tool you use.
+### 1. Phase-Based (GSD)
 
-### Key Patterns
+**Already in template.**
 
-| Pattern | Description |
-|---------|-------------|
-| **Parallel execution** | 5 terminal Claudes + 5-10 web Claudes running simultaneously |
-| **Numbered tabs** | System notifications alert when Claude needs input |
-| **Verification loops** | Give Claude a way to verify its work = 2-3x quality improvement |
-| **CLAUDE.md memory** | Team maintains single file; add mistakes so Claude learns |
-| **Subagents** | code-simplifier, verify-app automate common workflows |
-| **Model choice** | Opus 4.5 with thinking for everything ("slower but faster in the end") |
+Define roadmap upfront, work through milestones sequentially.
 
-### Philosophy
-> "The bottleneck isn't generation; it's attention allocation."
+| Aspect | Detail |
+|--------|--------|
+| **When** | Greenfield with clear destination |
+| **Pattern** | Spec → Plan → Execute in atomic chunks → Commit per task |
+| **Key files** | `.planning/PROJECT.md`, `ROADMAP.md`, `STATE.md` |
+| **Strength** | Traceable commits, bisectable history, clear progress |
+| **Weakness** | Requires knowing destination upfront |
 
-Cherny sees this as "Starcraft-style" management—commanding autonomous units rather than typing syntax.
-
-### When to Use
-- High-velocity development with clear verification criteria
-- Projects where parallel work streams don't conflict
-- Teams comfortable with high context-switching
-
-### Source
-[VentureBeat: Claude Code Creator Workflow](https://venturebeat.com/technology/the-creator-of-claude-code-just-revealed-his-workflow-and-developers-are)
+**Core commands**: `/gsd:create-roadmap`, `/gsd:plan-phase`, `/gsd:execute-plan`
 
 ---
 
-## 2. Steve Yegge's Orchestration Ecosystem
+### 2. Issue-Based (Beads)
 
-### Overview
-A suite of interconnected tools representing 4 complete orchestrator attempts in 2025.
+**Already in template.**
 
-### Tools
+Track work as you discover it, manage dependencies.
 
-#### Beads (Already in Template)
-- Agent memory/issue tracking system
-- Git-native storage with dependency tracking
-- Focus: discovered work, cross-session continuity
+| Aspect | Detail |
+|--------|--------|
+| **When** | Maintenance, ongoing projects, emerging scope |
+| **Pattern** | Discover → Create issue → Work → Close → Sync |
+| **Key files** | `.beads/` directory |
+| **Strength** | Handles discovered work, tracks blockers |
+| **Weakness** | No inherent roadmap or milestones |
 
-#### Gas Town
-- Multi-agent workspace manager
-- Persists state in git-backed hooks (survives agent restarts)
-- Key components:
-  - **Mayor**: Primary AI coordinator with workspace context
-  - **Rigs**: Project containers wrapping git repos + agents
-  - **Hooks**: Git worktree-based storage
-  - **Convoys**: Work tracking units bundling issues
-  - **Polecats**: Ephemeral worker agents spawned for tasks
-- Scales comfortably to 20-30 agents
-
-#### VC (AI-Orchestrated Coding Agent Colony)
-- Higher-level orchestration layer
-- Multiple levels of agents supervising other agents
-- Vision: "Kubernetes for agents"
-
-### 8-Stage Developer Evolution
-1. Near-zero AI usage
-2. Basic prompting
-3. Regular AI assistance
-4. ...
-5. ...
-6. Stage 6-7: Running 10+ parallel agents, pushing hand-management limits
-7. ...
-8. Building your own orchestrator
-
-### When to Use
-- **Beads**: Ongoing maintenance, discovered work, dependency tracking
-- **Gas Town**: Large-scale parallel work, need state persistence across restarts
-- **VC**: Complex projects requiring hierarchical agent supervision
-
-### Sources
-- [GitHub: gastown](https://github.com/steveyegge/gastown)
-- [GitHub: vc](https://github.com/steveyegge/vc)
-- [Welcome to Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04)
+**Core commands**: `bd ready`, `bd create`, `bd close`, `bd sync`
 
 ---
 
-## 3. TÂCHES (glittercowboy) - GSD System
+### 3. Parallel Execution
 
-### Overview
-Meta-prompting, context engineering, and spec-driven development. Already partially integrated into template.
+Run multiple isolated agent contexts simultaneously.
 
-### Core Philosophy
-Handle complexity behind the scenes—context engineering, XML formatting, subagent orchestration—while keeping the interface simple.
+| Aspect | Detail |
+|--------|--------|
+| **When** | Tasks are independent, you can context-switch between outputs |
+| **Pattern** | Numbered contexts + notifications when attention needed |
+| **Strength** | Massive throughput increase |
+| **Weakness** | Requires attention management skill |
 
-### Key Features
+**Key insight**: The bottleneck isn't generation—it's attention allocation.
 
-| Feature | Description |
-|---------|-------------|
-| **Context Engineering** | Structured docs (PROJECT.md, ROADMAP.md, STATE.md) always available |
-| **Subagent Execution** | Each plan runs in fresh 200k-token context with 2-3 atomic tasks |
-| **XML-Structured Plans** | Precise formatting removes ambiguity |
-| **Atomic Git Commits** | Each task = one commit, supports bisecting and reverting |
+**Variations**:
+- **Boris pattern**: 5+ numbered terminal tabs, system notifications, "Starcraft-style" management
+- **Panopticon pattern**: 8 domain directories (~/nox, ~/email, ~/trades, etc.), explicit filesystem handoffs
 
-### Workflow Pattern
-1. **Capture** (`/gsd:new-project`): Extract complete project vision
-2. **Plan** (`/gsd:create-roadmap`): Generate phased roadmap
-3. **Execute** (`/gsd:plan-phase`, `/gsd:execute-plan`): Atomic tasks in fresh contexts
-4. **Iterate** (`/gsd:complete-milestone`, `/gsd:add-phase`): Ship and extend
-
-### Additional Resources
-- **taches-cc-resources**: Meta-prompts, slash commands, subagents, hooks
-- **taches-cc-prompts**: Parallel subagent orchestration with dependency detection
-- **Subagent auditors**: skill-auditor, slash-command-auditor, subagent-auditor
-
-### When to Use
-- Greenfield projects with clear milestones
-- When you need traceable, atomic commits
-- Projects requiring structured planning before execution
-
-### Sources
-- [GitHub: get-shit-done](https://github.com/glittercowboy/get-shit-done)
-- [GitHub: taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources)
+**How to apply**:
+1. Open multiple terminal tabs/sessions
+2. Number them for quick reference
+3. Enable system notifications for completion
+4. Context-switch when notified, not continuously
 
 ---
 
-## 4. Three Developer Loops Framework (Kim & Yegge)
+### 4. Async with Checkpoints
 
-### Overview
-From *Vibe Coding* book—organizes AI-assisted development across three timeframes.
+Long-running work that survives restarts, with notification on completion.
 
-### The Loops
+| Aspect | Detail |
+|--------|--------|
+| **When** | Tasks take hours, you want to do other things |
+| **Pattern** | Start → Checkpoint state → Notify on complete → Resume |
+| **Strength** | Work continues without your attention |
+| **Weakness** | Requires infrastructure for persistence/notification |
 
-| Loop | Timeframe | Focus | Key Strategies |
-|------|-----------|-------|----------------|
-| **Inner** | Seconds-minutes | Immediate AI collaboration | Decompose tasks, checkpoint via VCS, write specs/tests first, verify claims |
-| **Middle** | Hours-days | Context between sessions | External memory systems, project guidelines, design for AI, monitor drift |
-| **Outer** | Weeks-months | Strategic architecture | Preserve APIs, partition workspaces, enhanced CI/CD, recovery procedures |
+**Key insight**: Agent work should be resumable, not ephemeral.
 
-### Core Principle
-Each loop operates on: **prevent problems → detect issues early → correct quickly**
+**Variations**:
+- **Caffeinate + SMS**: Keep system awake, text on completion, reply to continue (Panopticon)
+- **Background agents**: Spawn async, monitor status, take over mid-flight
+- **Git-backed state**: Persist work state in hooks, survives agent restarts (Gas Town)
 
-### Key Insight
-AI generates code faster than humans can write it, requiring systematic management across different timescales.
-
-### When to Use
-- Framework for thinking about any agent workflow
-- Helps identify gaps in current approach
-- Useful for team training and process design
-
-### Source
-[IT Revolution: Three Developer Loops](https://itrevolution.com/articles/the-three-developer-loops-a-new-framework-for-ai-assisted-coding/)
+**How to apply**:
+1. Use `caffeinate -i` to prevent sleep during long runs
+2. Set up notification on completion (native notifications, SMS, webhook)
+3. Design for checkpoint/resume rather than single-shot execution
 
 ---
 
-## 5. Personal Panopticon Model (Molly Cantillon)
+### 5. Reflexive Learning
 
-### Overview
-Running life out of Claude Code as central orchestration point. "The tower belongs to you."
+Store lessons learned, feed into future attempts.
 
-### Architecture
+| Aspect | Detail |
+|--------|--------|
+| **When** | You keep hitting the same issues, want to accumulate knowledge |
+| **Pattern** | Work → Reflect → Store lesson → Future agents read lessons |
+| **Key files** | `CLAUDE.md`, `.ai/learnings.md`, `.ai/decisions.md` |
+| **Strength** | Agents get smarter over time |
+| **Weakness** | Requires discipline to capture learnings |
 
-**8 Isolated Agent Instances:**
+**Key insight**: "95-99% of agent interactions could be handled by a properly briefed model." (Yegge)
+
+**Variations**:
+- **CLAUDE.md as memory**: Add mistakes so agents learn not to repeat them (Boris)
+- **learnings.md**: Document discoveries, gotchas, patterns (already in template)
+- **Reflexion pattern**: Verbal reinforcement via stored reflections after failures (academic)
+
+**How to apply**:
+1. After any significant failure or discovery, document it
+2. Keep CLAUDE.md updated with project-specific guidance
+3. Review and prune accumulated knowledge periodically
+
+---
+
+## New Processes to Try
+
+### Verification Loops
+
+**Source**: Boris Cherny
+
+Give agents a way to verify their work = 2-3x quality improvement.
+
+**Implementation**:
+- Before execution, ask: "How will you know this worked?"
+- Include verification steps in task definitions
+- Create subagents specifically for verification (e.g., `verify-app`)
+
+**Example prompt addition**:
 ```
-~/nox      - Product (pulls Amplitude, cross-refs GitHub)
-~/metrics  - Analytics
-~/email    - Inbox zero, auto-drafted replies
-~/growth   - Marketing/growth
-~/trades   - Personal finance (overnight briefs)
-~/health   - Workouts, sleep
-~/writing  - Content creation
-~/personal - Life admin
+Before completing this task, verify:
+1. Tests pass
+2. App builds successfully
+3. Feature works as specified
 ```
 
-### Key Patterns
+---
 
-| Pattern | Description |
-|---------|-------------|
-| **Isolation** | Each domain operates independently |
-| **Explicit handoffs** | Context exchange through filesystem, not shared memory |
-| **Desktop automation** | When APIs absent, injects mouse/keystroke events |
-| **Cron-driven** | Ongoing tasks run on schedule |
-| **Caffeinate** | Keeps system awake on runs (airports, sleeping) |
-| **SMS checkpoints** | Texts on completion, reply to continue |
-| **Trace logging** | All thought traces logged for recursive self-improvement |
+### Domain Isolation
 
-### Philosophy
-> "Surveilling yourself with the attention span of a thousand clones."
+**Source**: Panopticon (Molly Cantillon)
 
-Build personal "legibility infrastructure" for self-governance.
+Separate life/work into isolated agent directories that don't share context.
 
-### When to Use
-- Life/work integration beyond just coding
-- When you need ongoing automation across domains
-- Personal productivity optimization
+**Implementation**:
+- Create separate project directories per domain
+- Each operates independently, spawns its own subagents
+- Exchange context through filesystem writes, not shared memory
 
-### Source
-`research-ephemeral/panopticon.md` (local file)
+**Potential domains**:
+```
+~/code/       # Development work
+~/email/      # Inbox processing
+~/trades/     # Finance/investment
+~/health/     # Fitness, sleep, nutrition
+~/writing/    # Content creation
+~/personal/   # Life admin
+```
+
+**Key principle**: Isolation prevents cross-contamination and keeps token usage minimal.
 
 ---
 
-## 6. Multi-Agent Frameworks
+### Tree of Thoughts
 
-### Claude-Flow
-Enterprise-grade platform with swarm intelligence.
+**Source**: Academic (Yao et al.)
 
-| Feature | Description |
-|---------|-------------|
-| **Orchestration modes** | Swarm (quick/temporary) or Hive-Mind (persistent/complex) |
-| **Queen-led model** | Specialized workers coordinate under intelligent supervision |
-| **AgentDB** | 96x-164x faster semantic vector search |
-| **MCP tools** | 100+ tools for comprehensive automation |
-| **Performance** | 84.8% SWE-Bench solve rate, 2.8-4.4x speed improvement |
+For complex architectural decisions, explore multiple approaches before committing.
 
-**When to Use**: Enterprise deployments, complex persistent projects, need for swarm coordination.
+**Implementation**:
+1. Generate 2-3 candidate approaches
+2. Evaluate each against explicit criteria
+3. Select best path forward
+4. Document decision in `.ai/decisions.md`
 
-**Source**: [GitHub: claude-flow](https://github.com/ruvnet/claude-flow)
-
-### CrewAI
-Role-based multi-agent orchestration platform.
-
-| Feature | Description |
-|---------|-------------|
-| **Abstraction level** | Focus on agent objectives, not implementation |
-| **Integrations** | Gmail, Teams, Notion, HubSpot, Salesforce, Slack |
-| **Observation** | Real-time workflow tracing, every agent step visible |
-| **Deployment** | Serverless containers, cloud or on-premises |
-
-**When to Use**: Enterprise teams, need for pre-built integrations, visual development preferred.
-
-**Source**: [CrewAI](https://www.crewai.com/)
-
-### Anthropic Agent Skills
-Official Anthropic framework for composable agent capabilities.
-
-| Feature | Description |
-|---------|-------------|
-| **Progressive disclosure** | Load information only when needed |
-| **Structure** | `SKILL.md` with YAML frontmatter, bundled reference files |
-| **Platform support** | Claude.ai, Claude Code, Agent SDK, Developer Platform |
-
-**When to Use**: Want official Anthropic patterns, need portable skills across platforms.
-
-**Source**: [Anthropic: Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
+**When to use**:
+- Choosing between frameworks/libraries
+- Designing system architecture
+- Refactoring approaches
+- Any decision with multiple viable paths
 
 ---
 
-## 7. Comparison Matrix
+### Cron-Driven Automation
 
-| Workflow | Best For | Complexity | State Management | Parallel Agents |
-|----------|----------|------------|------------------|-----------------|
-| **Boris's Pattern** | High-velocity dev | Medium | CLAUDE.md | 10-15 |
-| **GSD (TÂCHES)** | Greenfield, milestones | Low | .planning/ files | Subagents |
-| **Beads** | Maintenance, discovered work | Low | .beads/ + git | Single + subagents |
-| **Gas Town** | Large-scale parallel | High | Git hooks | 20-30 |
-| **Panopticon** | Life automation | High | Filesystem | 8 domains |
-| **Claude-Flow** | Enterprise swarms | High | AgentDB | Many |
-| **CrewAI** | Enterprise integrations | Medium | Platform | Team-based |
+**Source**: Panopticon, Continue Mission Control
+
+Recurring agent tasks on schedule, not just interactive sessions.
+
+**Implementation**:
+- Set up cron jobs that invoke agent workflows
+- Use hooks for event-driven triggers
+- Log all executions for review
+
+**Potential automations**:
+- Daily metric briefs
+- Inbox processing
+- Dependency updates
+- Test suite runs
+- Documentation freshness checks
+
+**Example cron**:
+```bash
+# Every morning at 6am, generate daily brief
+0 6 * * * cd ~/trades && claude "Generate today's brief" >> logs/brief.log 2>&1
+```
 
 ---
 
-## 8. Recommendations for Template
+## Pattern Selection Guide
 
-### Immediate Additions
+| Situation | Pattern |
+|-----------|---------|
+| Building something new with clear scope | **Phase-Based (GSD)** |
+| Maintaining existing system | **Issue-Based (Beads)** |
+| Multiple independent tasks | **Parallel Execution** |
+| Tasks take hours | **Async with Checkpoints** |
+| Keep making same mistakes | **Reflexive Learning** |
+| Need higher quality output | **Verification Loops** |
+| Life automation beyond coding | **Domain Isolation** |
+| Complex architectural decisions | **Tree of Thoughts** |
+| Recurring tasks | **Cron-Driven Automation** |
 
-1. **Add Boris's verification loop pattern** to CLAUDE.md snippets
-   - Prompt agents to create verification methods for their work
+---
 
-2. **Document the Three Loops framework** in a reference file
-   - Helps users think systematically about their workflow
+## Three Developer Loops (Framework)
 
-3. **Add "Help me decide" for workflow selection** during init
-   - Ask about parallel agents, state persistence needs, project scale
+From Kim & Yegge's *Vibe Coding*—useful mental model for where each pattern fits.
 
-### Future Considerations
-
-1. **Gas Town integration** for users needing large-scale parallel work
-   - Could be an optional add-on workflow
-
-2. **Panopticon-style domain isolation** as an archetype
-   - For users wanting life/work automation beyond coding
-
-3. **Agent Skills structure** for portable capabilities
-   - Align with Anthropic's official patterns
-
-### Workflow Selection Guide
-
-| If You Need... | Use |
-|----------------|-----|
-| Simple project, clear milestones | GSD |
-| Ongoing maintenance, discovered work | Beads |
-| High parallelism, rapid iteration | Boris's pattern |
-| Large-scale, state persistence | Gas Town |
-| Life automation, multiple domains | Panopticon model |
-| Enterprise, integrations | CrewAI or Claude-Flow |
+| Loop | Timeframe | Focus | Patterns That Fit |
+|------|-----------|-------|-------------------|
+| **Inner** | Seconds-minutes | Immediate work | Parallel Execution, Verification Loops |
+| **Middle** | Hours-days | Session continuity | Async with Checkpoints, Reflexive Learning |
+| **Outer** | Weeks-months | Strategic direction | Phase-Based (GSD), Domain Isolation |
 
 ---
 
 ## Sources
 
-- [VentureBeat: Claude Code Creator Workflow](https://venturebeat.com/technology/the-creator-of-claude-code-just-revealed-his-workflow-and-developers-are)
-- [GitHub: gastown](https://github.com/steveyegge/gastown)
-- [GitHub: vc](https://github.com/steveyegge/vc)
-- [GitHub: get-shit-done](https://github.com/glittercowboy/get-shit-done)
-- [GitHub: taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources)
-- [GitHub: claude-flow](https://github.com/ruvnet/claude-flow)
-- [CrewAI](https://www.crewai.com/)
-- [Anthropic: Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
-- [IT Revolution: Three Developer Loops](https://itrevolution.com/articles/the-three-developer-loops-a-new-framework-for-ai-assisted-coding/)
-- Local: `research-ephemeral/panopticon.md`
+**Primary**:
+- Boris Cherny workflow: [VentureBeat](https://venturebeat.com/technology/the-creator-of-claude-code-just-revealed-his-workflow-and-developers-are)
+- Steve Yegge: [Beads](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a), [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04)
+- TÂCHES/GSD: [GitHub](https://github.com/glittercowboy/get-shit-done)
+- Three Developer Loops: [IT Revolution](https://itrevolution.com/articles/the-three-developer-loops-a-new-framework-for-ai-assisted-coding/)
+- Panopticon: `research-ephemeral/panopticon.md`
+
+**Academic**:
+- Reflexion: Shinn et al. (verbal reinforcement via reflective text)
+- Tree of Thoughts: Yao et al. (search over candidate thought branches)
+- ReAct: Yao et al. (interleave reasoning traces with tool actions)
