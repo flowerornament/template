@@ -95,7 +95,12 @@ template/
 │       │   ├── wip.md
 │       │   └── sync.md
 │       └── hooks.md        # Hooks configuration
-└── examples/               # (Planned) Full working examples
+├── gsd-planning/           # GSD .planning/ templates
+├── patterns/               # Content pattern guidance
+└── examples/               # Working archetype examples
+    ├── build/
+    ├── research/
+    └── automate/
 ```
 
 ## Source Projects
