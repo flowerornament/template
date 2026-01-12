@@ -11,6 +11,18 @@ A collection of markdown files that any coding agent (Claude Code, opencode, cod
 - Purpose-first: Ask what user wants to accomplish, infer appropriate setup
 - Claude Code enhancement: Optional `.claude/` setup for Claude Code users
 - Self-evolving: Template tracks itself and improves over time
+- Simple and effective: Resist complexity; every addition must earn its place
+
+## Maintaining This Template
+
+The goal is to inform an agent doing a **one-time project setup task**. Keep this in mind when making changes:
+
+- **Give agents autonomy** - Don't over-specify. Provide options and guidance, let the agent decide.
+- **Prompt the right behaviors** - Include questions and decision points that lead to good outcomes.
+- **Remove what doesn't help** - If something isn't making setups better, cut it.
+- **Prefer fewer words** - A table beats a paragraph. An example beats an explanation.
+
+When in doubt, ask: "Does this help an agent set up a project correctly?" If not, it's bloat.
 
 ## How to Use
 
