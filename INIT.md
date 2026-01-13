@@ -263,11 +263,9 @@ No initial setup. Create branches as needed: `git checkout -b feat/feature-name`
 
 #### If Worktrees:
 ```bash
-# After initial commit on main, set up worktree directory
-mkdir -p ../project-trees
-git worktree add ../project-trees/dev -b dev
-# Add more worktrees as needed:
-# git worktree add ../project-trees/feature-x -b feat/feature-x
+# After initial commit on main, add dev worktree as sibling folder
+# Pattern: project/ (main), project-dev/ (dev)
+git worktree add ../$(basename "$PWD")-dev -b dev
 ```
 
 ### Git initial commit:
