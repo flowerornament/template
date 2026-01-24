@@ -176,11 +176,12 @@ project/
 #### Collaborate
 ```
 project/
-├── CLAUDE.md
+├── CLAUDE.md -> AGENTS.md # Symlink to avoid maintaining two files
 ├── AGENTS.md              # From snippets/agents-md/full.md
 └── .claude/
     └── commands/          # From snippets/claude-code/commands/
 ```
+**Note**: Create AGENTS.md first, then symlink: `ln -s AGENTS.md CLAUDE.md`
 
 #### Quick
 ```

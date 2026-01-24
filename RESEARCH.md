@@ -21,6 +21,8 @@
 
 **Insight**: CLAUDE.md is universal. AGENTS.md used for complex multi-contributor projects.
 
+**Symlink Pattern**: For projects needing both files, symlink CLAUDE.md → AGENTS.md instead of maintaining two separate files. This ensures agents see the same content regardless of which file they read, with zero maintenance overhead: `ln -s AGENTS.md CLAUDE.md`
+
 ### 2. Task Management Systems
 
 | Project | System | Why |
