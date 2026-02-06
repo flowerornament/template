@@ -26,19 +26,23 @@ When in doubt, ask: "Does this help an agent set up a project correctly?" If not
 
 ## How to Use
 
+The `/template` skill is now the primary way to initialize projects:
+
 ```bash
 # 1. Create and enter your new project
 mkdir ~/code/myproject && cd ~/code/myproject
 git init
 
-# 2. Start any coding agent
-claude  # or opencode, codex, etc.
+# 2. Start Claude Code
+claude
 
-# 3. Give the initialization prompt
-"Initialize this project following ~/code/template/INIT.md"
+# 3. Run the skill
+/template
 ```
 
-The agent will ask what you want to accomplish, suggest an appropriate setup, and create the structure.
+The skill lives at `~/.skills/template/` and handles the full interactive setup flow.
+
+This repo remains as a **reference** for the patterns, research, and source material that informed the skill. The snippets here are copied into the skill's `templates/` directory.
 
 ## Project Archetypes
 
